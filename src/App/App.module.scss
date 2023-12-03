@@ -1,0 +1,12 @@
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  position: relative;
+  max-width: max-content;
+  margin: 0 auto;
+}
+
+.logo {
+  margin: 50px auto;
+}
