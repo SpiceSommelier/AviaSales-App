@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { checkTransfer } from '../state/transferFilterSlice'
+import { ticketFilter } from '../state/fetchTicketsSlice'
 import TransferFilterClasses from './TransferFilter.module.scss'
 
 const TransferFilter = () => {
@@ -43,8 +44,9 @@ const TransferFilter = () => {
 
 const TransferFilterElement = ({ label, checked, id }) => {
   const dispatch = useDispatch()
-  const check = (evt) => {    
-    dispatch(checkTransfer({ id, value: evt.target.checked }))
+  const check = ({ target }) => {
+    dispatch(checkTransfer({ id, value: target.checked }))
+    
   }
   return (
     <li className={TransferFilterClasses['transfer-filter__element']}>

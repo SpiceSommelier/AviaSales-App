@@ -2,44 +2,41 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const transferFilterSlice = createSlice({
   name: 'transferFilter',
-  initialState: {
-    allTransfers: false,
+  initialState: {    
+    withoutTransfers: true,
     '1transfer': false,
     '2transfers': false,
     '3transfers': false,
-    withoutTransfers: true,
+    allTransfers: false,
   },
   reducers: {
     checkTransfer(state, action) {
       const { id, value } = action.payload
+      const turnAll = (state, value) => {
+        for (let key in state) {
+          state[key] = value
+        }
+      }
+      const isAllActive = (state) => {
+        let flag = true
+        for (let key in state) {
+          if (!state[key] && key !== 'allTransfers') flag = false
+        }
+        return flag
+      }
       switch (id) {
         case 'allTransfers': {
           if (value) {
-            state.allTransfers = true
-            state.withoutTransfers = true
-            state['1transfer'] = true
-            state['2transfers'] = true
-            state['3transfers'] = true
+            turnAll(state, true)
           } else {
-            state.allTransfers = false
-            state.withoutTransfers = false
-            state['1transfer'] = false
-            state['2transfers'] = false
-            state['3transfers'] = false
+            turnAll(state, false)
           }
           break
         }
         default:
           state[id] = value
           state.allTransfers = false
-          if (
-            state.withoutTransfers &&
-            state['1transfer'] &&
-            state['2transfers'] &&
-            state['3transfers']
-          )
-            state.allTransfers = true
-
+          if (isAllActive(state)) state.allTransfers = true
           break
       }
     },

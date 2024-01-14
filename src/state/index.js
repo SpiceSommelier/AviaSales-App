@@ -1,8 +1,16 @@
-import { configureStore } from '@reduxjs/toolkit'
-import transferFilterReducer from './transferFilterSlice'
+import { configureStore, applyMiddleware } from '@reduxjs/toolkit'
+import { thunk } from 'redux-thunk'
+import { composeWithDevTools } from '@redux-devtools/extension'
 
-export default configureStore({
-  reducer: {
-    transferFilterList: transferFilterReducer,
+import transferFilterReducer from './transferFilterSlice'
+import TicketListReducer from './fetchTicketsSlice'
+
+export default configureStore(
+  {
+    reducer: {
+      transferFilterList: transferFilterReducer,
+      ticketList: TicketListReducer
+    },
   },
-})
+  composeWithDevTools(applyMiddleware(thunk))
+)
