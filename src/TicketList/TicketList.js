@@ -15,8 +15,15 @@ import Ticket from '../Ticket'
 const TicketList = () => {
   const tickets = useSelector((state) => state.ticketList)
   const filters = useSelector((state) => state.transferFilterList)
-  const { completeLoading, error, loading, ticketList, token, filteredList } =
-    tickets
+  const {
+    completeLoading,
+    error,
+    loading,
+    ticketList,
+    token,
+    filteredList,
+    sortParam,
+  } = tickets
   const dispatch = useDispatch()
   useEffect(() => {
     if (!token) {
@@ -26,12 +33,12 @@ const TicketList = () => {
   useEffect(() => {
     if (!completeLoading && token) {
       dispatch(fetchTickets(token))
-      dispatch(ticketSort('самый дешевый'))
+      dispatch(ticketSort(sortParam))
       dispatch(ticketFilter(filters))
     }
   }, [token, dispatch, ticketList, completeLoading, error])
   useEffect(() => {
-    dispatch(ticketSort(tickets.sortParam))
+    dispatch(ticketSort(sortParam))
     dispatch(ticketFilter(filters))
   }, [filters, dispatch])
   if (filteredList.length > 0) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ticketSort } from '../state/fetchTicketsSlice'
+import { ticketSort, ticketFilter } from '../state/fetchTicketsSlice'
 import TicketFilterClasses from './TicketFilter.module.scss'
 
 const TicketFilter = () => {
@@ -16,6 +16,7 @@ const TicketFilter = () => {
 const FilterElement = ({ label, chosen = false }) => {
   let elementClass = [TicketFilterClasses['ticket-filter__element']]
   const tickets = useSelector((state) => state.ticketList)
+  const filters = useSelector((state) => state.transferFilterList)
   const { sortParam } = tickets
   if (sortParam === label) {
     chosen = true
@@ -23,6 +24,7 @@ const FilterElement = ({ label, chosen = false }) => {
   const dispatch = useDispatch()
   const sort = () => {
     dispatch(ticketSort(label))
+    dispatch(ticketFilter(filters))
   }
   if (chosen)
     elementClass.push(TicketFilterClasses['ticket-filter__element--chosen'])
